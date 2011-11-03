@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+#
+# tool for running rake with docgen
+
+# if passed a variable, pass that on to rake (only passes first one)
+
+SCMPATH=~/SCM
+
+# -t will make rake trace, for debugging
+RAKECMD="rake -f ${SCMPATH}/tools/docgen/docgen.rake"
+
+# by default pass a blank for the task
+RAKETASK=""
+if [ $# -eq 1 ] 
+then
+    ${RAKECMD} "${1}" 
+elif [ $# -eq 2 ]
+then
+    #if there's a 2nd option, pass it as the "target" variable
+    ${RAKECMD} "${1}" target="$2"
+fi
+

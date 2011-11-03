@@ -1,0 +1,96 @@
+% A Test Document
+% Artisan Computer - Zack Williams - zdw@artisancomputer.com
+% 2010-09-01
+
+# First Section
+
+Created in Markdown format
+
+## Major Heading
+
+The first paragraph of the document. Lorem ipsum dolor sit amet,
+consectetur adipiscing elit. Ut varius orci nec orci ultrices
+convallis. Morbi sit amet scelerisque felis. Quisque consequat,
+purus vel euismod sagittis, felis massa congue arcu, quis iaculis
+diam risus ut ligula. Donec lobortis lacus eget ipsum auctor
+imperdiet. Cras faucibus, diam condimentum tempor ultrices, urna
+velit posuere felis, eu auctor ligula augue at nisi. Maecenas
+faucibus, orci ut sodales fringilla, neque leo accumsan dui, in
+venenatis justo urna ut erat. Phasellus id felis ligula, sit amet
+imperdiet purus. Mauris quis velit neque. Aenean consequat, orci
+eget iaculis fermentum, leo purus lobortis magna, a hendrerit diam
+enim et mi. Cras in ultricies quam. Etiam eget lacus nisl.
+Suspendisse non gravida diam. Etiam tincidunt congue mi in
+dignissim. Curabitur pharetra ultricies neque vel sagittis.
+
+
+Praesent iaculis justo quis quam convallis dignissim. Nam vitae
+quam lorem. Donec lobortis lacus eget ipsum auctor
+imperdiet. Cras faucibus, diam condimentum tempor ultrices, urna
+velit posuere felis, eu auctor ligula augue at nisi. Maecenas
+faucibus, orci ut sodales fringilla, neque leo accumsan dui, in
+venenatis justo urna ut erat. Phasellus id felis ligula, sit amet
+imperdiet purus. Mauris quis velit neque. Aenean consequat, orci
+eget iaculis fermentum, leo purus lobortis magna, a hendrerit diam
+enim et mi. Cras in ultricies quam. Etiam eget lacus nisl.
+Suspendisse non gravida diam. Etiam tincidunt congue mi in
+dignissim. Curabitur pharetra ultricies neque vel sagittis.
+Praesent iaculis justo quis quam convallis dignissim. Nam vitae
+quam lorem.^[This is a footnote on the greeked text given above]
+
+![Image](image.png)
+
+## Another Section
+
+This is some more text, "this should be printed in fancy quotes" if supported.
+
+`This text is monospaced, and for some reason seems to be setting the the left margin incorrectly for following text.  I'm not sure why this is.`
+
+Here is a unordered list.  I think, due to the text above, the left margin is shifted slightly right for text following a monospaced section.  Weird. 
+
+ - Item 1
+ - Item 2
+ - Item 3
+    - Subitem 1
+    - Subitem 2
+
+And a numbered list
+
+ #. First Step
+ #. Second Step
+ #. Third Step
+
+**A bit of source code, numbered and highlighted in HTML variants**
+
+~~~~ {.bash .numberLines}
+#!/bin/bash
+
+echo "this is a test";
+
+for file in *; do
+	echo $file;
+done;
+~~~~
+
+## Section with subheadings
+
+### Main topic
+
+Here's the topic for this section. 
+
+### Secondary topic
+
+More information
+
+# A top level item
+
+This is a discussion of something new and different.  I wonder how it'll be treated. 
+
+# another top level item
+
+This is more text
+
+# still more top level items
+
+
+

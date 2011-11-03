@@ -1,0 +1,122 @@
+% set type of document, and basic font size. 
+\documentclass[12pt]{article}
+
+% set the margins on the document
+% docs: http://mirror.ctan.org/macros/latex/contrib/geometry/geometry.pdf
+\usepackage[hmargin=0.5in,vmargin=0.75in]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+% format text with a ragged right edge (aka "right justfied", not not fully justified)
+\raggedright
+
+% setup for using xetex, which allows better typography under OS X. 
+% docs: http://tug.ctan.org/tex-archive/info/xetexref/XeTeX-reference.pdf
+\usepackage{ifxetex}
+\ifxetex
+  \usepackage{fontspec,xltxtra,xunicode}
+  \defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
+  \setromanfont{Georgia}
+  \setsansfont{Helvetica}
+  \setmonofont{Inconsolata}
+\else
+  \usepackage[mathletters]{ucs}
+  \usepackage[utf8x]{inputenc}
+\fi
+
+% access to micro-typographic extensions (ligatures, kerning, spacing, etc.) 
+% docs: http://tug.ctan.org/tex-archive/macros/latex/contrib/microtype/microtype.pdf
+\usepackage{microtype}
+
+% fancyhdr = fancy headers.  Set the header and footer characteristics
+% docs: http://tug.ctan.org/tex-archive/macros/latex/contrib/fancyhdr/fancyhdr.pdf
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\pagenumbering{arabic}
+\lhead{\itshape $title$}  % title in italic, top left
+\chead{}
+\rhead{\itshape{\nouppercase{\leftmark}}} % by default, it prints the section name top right
+\lfoot{}
+\cfoot{}
+\rfoot{\thepage} % page number at bottom right
+
+% define a color, used for hyperrefs
+\usepackage{color}
+\definecolor{darkblue}{rgb}{0.3,0.3,0.6}
+
+% hyperref creates links within PDF files
+% docs: http://www.tug.org/applications/hyperref/manual.html
+\usepackage{hyperref}
+\hypersetup{ 
+	% link attributes/color
+	colorlinks,
+    linkcolor=darkblue,
+	urlcolor=darkblue,
+	anchorcolor=darkblue,
+	filecolor=darkblue,
+	linkcolor=darkblue,
+	menucolor=darkblue,
+	citecolor=darkblue
+	backref=true,
+	% pdf metadata attributes
+	pdftitle={$title$},
+	pdfauthor={$for(author)$$author$$sep$;$endfor$},
+	% use xetex to process
+	xetex
+}
+
+% listings pretty prints code listings
+% doc: http://tug.ctan.org/tex-archive/macros/latex/contrib/listings/listings.pdf
+\usepackage{listings}
+\lstnewenvironment{code}{\lstset{language=Haskell,basicstyle=\small\ttfamily}}{}
+\lstset{numbers=left, numberstyle=\tiny, stepnumber=2, numbersep=5pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+
+% redefine \section to have a page break after it. 
+%\let\oldsection = \section
+%\renewcommand{\section}[5]{
+%   \pagebreak
+%   \oldsection{#1}{#2}{#3}{#4}{#5}
+%}
+
+\usepackage{fancyvrb}
+\usepackage{enumerate}
+\usepackage{array}
+
+% This is needed because raggedright in table elements redefines \\:
+\newcommand{\PreserveBackslash}[1]{\let\temp=\\#1\let\\=\temp}
+\let\PBS=\PreserveBackslash
+\usepackage[normalem]{ulem}
+\newcommand{\textsubscr}[1]{\ensuremath{_{\scriptsize\textrm{#1}}}}
+
+\usepackage{url}
+\usepackage{float}
+\usepackage{graphicx}
+$if(numbersections)$
+$else$
+\setcounter{secnumdepth}{0}
+$endif$
+\VerbatimFootnotes % allows verbatim text in footnotes
+$for(header-includes)$
+$header-includes$
+$endfor$
+
+\title{$title$}
+\author{$for(author)$$author$$sep$\\$endfor$}
+$if(date)$
+\date{$date$}
+$endif$
+
+\begin{document}
+$if(title)$
+\maketitle
+$if(toc)$
+\tableofcontents
+\newpage
+$endif$
+$endif$
+
+$body$
+
+\end{document}

@@ -1,0 +1,29 @@
+/* General styles */
+body { margin-left: 5%; margin-right: 5%; margin-top: 5%; margin-bottom: 5%; text-align: left; font-size: medium; font-family: Georgia, "Times New Roman", serif; }
+h1, h2, h3, h4, h5, h6 { text-align: left; }
+h1.title { }
+h2.author { }
+
+/* align figures and captions */
+.figure img {display: block; margin-left: auto; margin-right: auto;}
+.figure .caption { font-weight: italic; text-align: center;}
+
+/* source code highlighting */
+code,pre { font-family: Inconsolata, monospace; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode, table.sourceCode pre 
+   { margin: 0; padding: 0; border: 0; vertical-align: baseline; border: none;}
+td.nums { border-right: 1px solid #AAAAAA; text-align: right; color: #AAAAAA; padding-right: 5px; padding-left: 5px; }
+td.sourceCode { padding-left: 5px; }
+pre.sourceCode span.kw { color: #007020; font-weight: bold; } 
+pre.sourceCode span.dt { color: #902000; }
+pre.sourceCode span.dv { color: #40a070; }
+pre.sourceCode span.bn { color: #40a070; }
+pre.sourceCode span.fl { color: #40a070; }
+pre.sourceCode span.ch { color: #4070a0; }
+pre.sourceCode span.st { color: #4070a0; }
+pre.sourceCode span.co { color: #60a0b0; font-style: italic; }
+pre.sourceCode span.ot { color: #007020; }
+pre.sourceCode span.al { color: red; font-weight: bold; }
+pre.sourceCode span.fu { color: #06287e; }
+pre.sourceCode span.re { }
+pre.sourceCode span.er { color: red; font-weight: bold; }
