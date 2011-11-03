@@ -68,24 +68,24 @@ end
         - [Pro Git](http://progit.org/)
         - [Git for Computer Scientists](http://eagain.net/articles/git-for-computer-scientists/)
 
- - [Rake](http://rake.rubyforge.org/)
-    - A tool for writing dependency based tools, in Ruby
+- [Rake](http://rake.rubyforge.org/)
+    - A tool for writing dependency based tasks, in Ruby
     - Tutorials 
         - [Using the Rake Build Language](http://martinfowler.com/articles/rake.html)
 
 
 ### Documentation Tools
 
- - [Markdown](http://daringfireball.net/projects/markdown/)
+- [Markdown](http://daringfireball.net/projects/markdown/)
     - minimalist markup language
     - Multiple implementations, for example [MultiMarkdown](http://fletcherpenney.net/multimarkdown/)
  
- - [Pandoc](http://johnmacfarlane.net/pandoc/)
+- [Pandoc](http://johnmacfarlane.net/pandoc/)
     - Documentation format conversion swiss army knife
     - Will convert Markdown to HTML, ePub, PDF, etc. 
 
 ### Accounting Tools
 
- - [Ledger](http://ledger-cli.org/)
+- [Ledger](http://ledger-cli.org/)
     - Ledger is a CLI accounting tool
     - Use the 3.x beta branch off of github, which is being actively developed
