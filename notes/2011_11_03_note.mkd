@@ -19,4 +19,9 @@ Device: HP Laserjet Printer, `10.10.1.10`
 Connected all devices to network (iPad, two iMacs)
 
 End: 10AM 
++++
+Item: $69.55, 1, Buffalo WZR-HP-G300NH Router
+Check: $225.88, Check #101
+
+
 

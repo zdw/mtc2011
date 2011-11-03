@@ -1,0 +1,12 @@
+2011/11/03 Invoice
+	ACS:Assets:Accounts Receivable:Zack Williams
+	Customers:Zack Williams:Invoice:Labor		-150.00
+	Customers:Zack Williams:Invoice:Materials		-69.55
+	Customers:Zack Williams:Invoice:Tax		-6.33
+
+2011/11/03 Check #101
+	Customers:Zack Williams:Payments:Check		225.88
+	Customers:Zack Williams:Equity		-225.88
+	ACS:Assets:Accounts Receivable:Zack Williams		-225.88
+	ACS:Assets:Checking Deposits
+
