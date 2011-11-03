@@ -2,7 +2,7 @@
 
 This repo goes along with a presentation given at [MacTech Conference 2011](http://www.mactech.com/conference/)
 
-![MacTech Conference 2011](mtc2011_logo.png)
+![MacTech Conference 2011](/zdw/mtc2011/raw/master/mtc2011_logo.png)
 
 ## Notes about my particular process
 
