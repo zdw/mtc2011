@@ -1,0 +1,22 @@
+Provider: zdw
+Type: onsite
+Rate: 150
+Date: 2011-11-03
+Start: 9AM
+
+Set up wireless network for customer
+
+Network: 10.10.1.0/24
+
+Device: Wireless Router, `10.10.1.1`
+
+ - Username: `admin`, Password: `Thu9ahNga`a9ae`
+ - Service: dhcp
+ - Wireless Network Name: `ZackNet`, Password: `Ooquik4thai'jo`, WPA2/AES
+
+Device: HP Laserjet Printer, `10.10.1.10`
+
+Connected all devices to network (iPad, two iMacs)
+
+End: 10AM 
+
