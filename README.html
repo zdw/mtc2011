@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">
+/*<![CDATA[*/
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode, table.sourceCode pre 
+   { margin: 0; padding: 0; border: 0; vertical-align: baseline; border: none; }
+td.lineNumbers { border-right: 1px solid #AAAAAA; text-align: right; color: #AAAAAA; padding-right: 5px; padding-left: 5px; }
+td.sourceCode { padding-left: 5px; }
+code.sourceCode span.kw { color: #007020; font-weight: bold; } 
+code.sourceCode span.dt { color: #902000; }
+code.sourceCode span.dv { color: #40a070; }
+code.sourceCode span.bn { color: #40a070; }
+code.sourceCode span.fl { color: #40a070; }
+code.sourceCode span.ch { color: #4070a0; }
+code.sourceCode span.st { color: #4070a0; }
+code.sourceCode span.co { color: #60a0b0; font-style: italic; }
+code.sourceCode span.ot { color: #007020; }
+code.sourceCode span.al { color: red; font-weight: bold; }
+code.sourceCode span.fu { color: #06287e; }
+code.sourceCode span.re { }
+code.sourceCode span.er { color: red; font-weight: bold; }
+/*]]>*/
+  </style>
+  <link rel="stylesheet" href="/Users/zdw/SCM/tools/docgen/epub.css" type="text/css" />
+</head>
+<body>
+<h1 id="managing-data-with-version-control">Managing Data with Version Control</h1>
+<p>This repo goes along with a presentation given at <a href="http://www.mactech.com/conference/">MacTech Conference 2011</a></p>
+<div class="figure">
+<img src="mtc2011_logo.png" alt="MacTech Conference 2011" /><p class="caption">MacTech Conference 2011</p>
+</div>
+<h2 id="notes-about-my-particular-process">Notes about my particular process</h2>
+<p>I create new files in “notes”, which are transformed into the XML worklog syntax, which is stored in “worklogs”. This syntax is used to create PDF invoices in “invoice” or ledger files in “ledgers”. I don’t include this code because it’s pretty ancient, and does some really stupid things (for example, storing unix timestamps in the XML, rather than ISO–8601 dates).</p>
+<p>The rest of the files in the repo were added after the fact (like this README which you are reading right now).</p>
+<h2 id="scripts">Scripts</h2>
+<p>Note that none of these are fully prepped to work on any system - they often will need other utilities installed, or will need to be fixed to work in your specific environment. These are mainly starting points.</p>
+<h3 id="scriptsdocgen"><code>scripts/docgen</code></h3>
+<p>This is the documentation generation script that I use to convert markdown files into different formats - for example, turning this README into a nicely formatted PDF and HTML docs that are also in the repo.</p>
+<p>It’s dependent on pandoc, imagemagick, pdfcrush, advpng and a few other XML specific tools like jing.</p>
+<p>See the <code>test</code> subfolder for examples - all the files inside were created from <code>testfile.mkd</code></p>
+<h3 id="scriptsmailsend.scpt"><code>scripts/mailsend.scpt</code></h3>
+<p>A very simple Applescript that will send an email with specified subject/sender/attachments. I run this with a bash script that calls rake:</p>
+<p>bash script:</p>
+<pre class="sourceCode"><code class="sourceCode bash"><span class="ot">$FOCUSTOOLPATH</span>=~/tools<br /><span class="ot">RAKECMD=</span><span class="st">&quot;rake -f </span><span class="ot">${FOCUSTOOLPATH}</span><span class="st">/worklog/worklog.rake&quot;</span><br /><span class="ot">${RAKECMD}</span> <span class="st">&quot;</span><span class="ot">${1}</span><span class="st">&quot;</span> <span class="ot">target=</span><span class="st">&quot;</span><span class="ot">$2</span><span class="st">&quot;</span></code></pre>
+<p>rakefile:</p>
+<pre class="sourceCode"><code class="sourceCode ruby"><span class="co"># set the target variable if it's a valid file</span><br /><span class="dt">$target</span> = <span class="dv">nil</span><br /><span class="kw">if</span> !<span class="dt">ENV</span>[<span class="st">&quot;target&quot;</span>].nil? &amp;&amp; <span class="dt">File</span>.file?(<span class="dt">ENV</span>[<span class="st">&quot;target&quot;</span>])<br />    <span class="dt">$target</span> = <span class="dt">ENV</span>[<span class="st">&quot;target&quot;</span>];<br /><span class="kw">end</span><br /><br /><span class="co"># mailinvoice</span><br />task <span class="st">:mailinvoice</span> =&gt; [ <span class="st">:worklogs</span>, <span class="st">:ledgers</span> ] <span class="kw">do</span><br />    <span class="kw">if</span> <span class="dt">$target</span><br />        note_date = <span class="dt">ENV</span>[<span class="st">'FOCUSDATE'</span>].gsub(<span class="st">'_'</span>,<span class="st">'-'</span>)<br />        filepath = <span class="dt">File</span>.expand_path(<span class="dt">$target</span>)<br />        name = customer_name()<br />        email = customer_email()<br />        sh <span class="st">&quot;</span><span class="ot">#{</span><span class="dt">$osascript_bin</span><span class="ot">}</span><span class="st"> </span><span class="ot">#{</span><span class="dt">$mailsend_scpt</span><span class="ot">}</span><span class="st"> 'Invoice for </span><span class="ot">#{</span>note_date<span class="ot">}</span><span class="st">' 'Please see the enclosed invoice\n\n' </span><span class="ot">#{</span>name<span class="ot">}</span><span class="st"> </span><span class="ot">#{</span>email<span class="ot">}</span><span class="st"> </span><span class="ot">#{</span>filepath<span class="ot">}</span><span class="st">&quot;</span><br />    <span class="kw">end</span><br /><span class="kw">end</span></code></pre>
+<h2 id="tools">Tools</h2>
+<h3 id="automation-tools">Automation Tools</h3>
+<ul>
+<li><a href="http://git-scm.com/">Git</a>
+<ul>
+<li>A version control system</li>
+<li>Documentation and tutorials
+<ul>
+<li><a href="http://schacon.github.com/git/gittutorial.html"><code>man gittutorial</code></a></li>
+<li><a href="http://schacon.github.com/git/everyday.html">Everyday Git</a></li>
+<li><a href="http://progit.org/">Pro Git</a></li>
+<li><a href="http://eagain.net/articles/git-for-computer-scientists/">Git for Computer Scientists</a></li>
+</ul></li>
+</ul></li>
+<li><a href="http://rake.rubyforge.org/">Rake</a>
+<ul>
+<li>A tool for writing dependency based tools, in Ruby</li>
+<li>Tutorials
+<ul>
+<li><a href="http://martinfowler.com/articles/rake.html">Using the Rake Build Language</a></li>
+</ul></li>
+</ul></li>
+</ul>
+<h3 id="documentation-tools">Documentation Tools</h3>
+<ul>
+<li><a href="http://daringfireball.net/projects/markdown/">Markdown</a>
+<ul>
+<li>minimalist markup language</li>
+<li>Multiple implementations, for example <a href="http://fletcherpenney.net/multimarkdown/">MultiMarkdown</a></li>
+</ul></li>
+<li><a href="http://johnmacfarlane.net/pandoc/">Pandoc</a>
+<ul>
+<li>Documentation format conversion swiss army knife</li>
+<li>Will convert Markdown to HTML, ePub, PDF, etc.</li>
+</ul></li>
+</ul>
+<h3 id="accounting-tools">Accounting Tools</h3>
+<ul>
+<li><a href="http://ledger-cli.org/">Ledger</a>
+<ul>
+<li>Ledger is a CLI accounting tool</li>
+<li>Use the 3.x beta branch off of github, which is being actively developed</li>
+</ul></li>
+</ul>
+</body>
+</html>
