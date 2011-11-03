@@ -70,18 +70,29 @@ See the `test` subfolder for examples - all the files inside were created from  
 
 ### `scripts/mailsend.scpt`
 
-A very simple Applescript that will send an email with specified subject/sender/attachments.  I run this with a bash script that calls rake.
+A very simple Applescript that will send an email with specified subject/sender/attachments.  I run this with a bash script that calls rake. The code as written below needs help to be functional in your environment.
 
 *bash script:*
 
 ~~~~{.bash .numberlines}
+#!/usr/bin/env rake
 RAKECMD="rake -f ~/tools/worklog.rake"
-${RAKECMD} "${1}" target="$2"
+${RAKECMD} "${1}" target="${2}"
 ~~~~
 
-*rakefile:*
+*rakefile - at ~/tools/worklog.rake in my environment*
 
 ~~~~ {.ruby .numberlines}
+
+# paths
+tool_path = "~/tools"
+
+# binaries
+$osascript_bin = "/usr/bin/osascript"
+
+# scripts
+$mailsend_scpt = tool_path + "/worklog/mailsend.scpt"
+
 # set the target variable if it's a valid file
 $target = nil
 if !ENV["target"].nil? && File.file?(ENV["target"])
@@ -98,5 +109,13 @@ task :mailinvoice => [ :worklogs, :ledgers ] do
         email = customer_email()
         sh "#{$osascript_bin} #{$mailsend_scpt} 'Invoice for #{note_date}' 'Please see the enclosed invoice\n\n' #{name} #{email} #{filepath}"
     end
+end
+
+def customer_name()
+    return "customer"
+end
+
+def customer_email()
+    return "user@host.net"
 end
 ~~~~
