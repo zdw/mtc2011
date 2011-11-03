@@ -34,26 +34,14 @@ code.sourceCode span.er { color: red; font-weight: bold; }
 <img src="mtc2011_logo.png" alt="MacTech Conference 2011" /><p class="caption">MacTech Conference 2011</p>
 </div>
 <h2 id="notes-about-my-particular-process">Notes about my particular process</h2>
-<p>I create new files in “notes”, which are transformed into the XML worklog syntax, which is stored in “worklogs”. This syntax is used to create PDF invoices in “invoice” or ledger files in “ledgers”. I don’t include this code because it’s pretty ancient, and does some really stupid things (for example, storing unix timestamps in the XML, rather than ISO–8601 dates).</p>
+<p>I create new files in “notes”, which are transformed into the XML worklog syntax, which is stored in “worklogs”. This syntax is used to create PDF invoices in “invoices” or ledger files in “ledgers”.</p>
+<p>I don’t include the worklog parsing/ledger/pdf generation code itself because it’s pretty ancient, in PHP, has a bunch of weird non-current library dependencies and does some really stupid things (for example, storing unix timestamps in the XML, rather than ISO–8601 dates).</p>
 <p>The rest of the files in the repo were added after the fact (like this README which you are reading right now).</p>
-<h2 id="scripts">Scripts</h2>
-<p>Note that none of these are fully prepped to work on any system - they often will need other utilities installed, or will need to be fixed to work in your specific environment. These are mainly starting points.</p>
-<h3 id="scriptsdocgen"><code>scripts/docgen</code></h3>
-<p>This is the documentation generation script that I use to convert markdown files into different formats - for example, turning this README into a nicely formatted PDF and HTML docs that are also in the repo.</p>
-<p>It’s dependent on pandoc, imagemagick, pdfcrush, advpng and a few other XML specific tools like jing.</p>
-<p>See the <code>test</code> subfolder for examples - all the files inside were created from <code>testfile.mkd</code></p>
-<h3 id="scriptsmailsend.scpt"><code>scripts/mailsend.scpt</code></h3>
-<p>A very simple Applescript that will send an email with specified subject/sender/attachments. I run this with a bash script that calls rake:</p>
-<p>bash script:</p>
-<pre class="sourceCode"><code class="sourceCode bash"><span class="ot">$FOCUSTOOLPATH</span>=~/tools<br /><span class="ot">RAKECMD=</span><span class="st">&quot;rake -f </span><span class="ot">${FOCUSTOOLPATH}</span><span class="st">/worklog/worklog.rake&quot;</span><br /><span class="ot">${RAKECMD}</span> <span class="st">&quot;</span><span class="ot">${1}</span><span class="st">&quot;</span> <span class="ot">target=</span><span class="st">&quot;</span><span class="ot">$2</span><span class="st">&quot;</span></code></pre>
-<p>rakefile:</p>
-<pre class="sourceCode"><code class="sourceCode ruby"><span class="co"># set the target variable if it's a valid file</span><br /><span class="dt">$target</span> = <span class="dv">nil</span><br /><span class="kw">if</span> !<span class="dt">ENV</span>[<span class="st">&quot;target&quot;</span>].nil? &amp;&amp; <span class="dt">File</span>.file?(<span class="dt">ENV</span>[<span class="st">&quot;target&quot;</span>])<br />    <span class="dt">$target</span> = <span class="dt">ENV</span>[<span class="st">&quot;target&quot;</span>];<br /><span class="kw">end</span><br /><br /><span class="co"># mailinvoice</span><br />task <span class="st">:mailinvoice</span> =&gt; [ <span class="st">:worklogs</span>, <span class="st">:ledgers</span> ] <span class="kw">do</span><br />    <span class="kw">if</span> <span class="dt">$target</span><br />        note_date = <span class="dt">ENV</span>[<span class="st">'FOCUSDATE'</span>].gsub(<span class="st">'_'</span>,<span class="st">'-'</span>)<br />        filepath = <span class="dt">File</span>.expand_path(<span class="dt">$target</span>)<br />        name = customer_name()<br />        email = customer_email()<br />        sh <span class="st">&quot;</span><span class="ot">#{</span><span class="dt">$osascript_bin</span><span class="ot">}</span><span class="st"> </span><span class="ot">#{</span><span class="dt">$mailsend_scpt</span><span class="ot">}</span><span class="st"> 'Invoice for </span><span class="ot">#{</span>note_date<span class="ot">}</span><span class="st">' 'Please see the enclosed invoice\n\n' </span><span class="ot">#{</span>name<span class="ot">}</span><span class="st"> </span><span class="ot">#{</span>email<span class="ot">}</span><span class="st"> </span><span class="ot">#{</span>filepath<span class="ot">}</span><span class="st">&quot;</span><br />    <span class="kw">end</span><br /><span class="kw">end</span></code></pre>
 <h2 id="tools">Tools</h2>
 <h3 id="automation-tools">Automation Tools</h3>
 <ul>
 <li><a href="http://git-scm.com/">Git</a>
 <ul>
-<li>A version control system</li>
 <li>Documentation and tutorials
 <ul>
 <li><a href="http://schacon.github.com/git/gittutorial.html"><code>man gittutorial</code></a></li>
@@ -62,12 +50,21 @@ code.sourceCode span.er { color: red; font-weight: bold; }
 <li><a href="http://eagain.net/articles/git-for-computer-scientists/">Git for Computer Scientists</a></li>
 </ul></li>
 </ul></li>
+<li><a href="http://mercurial.selenic.com/">Mercurial</a>
+<ul>
+<li>Documentation and tutorials
+<ul>
+<li><a href="http://hginit.com/">Hg Init</a></li>
+<li><a href="http://hgbook.red-bean.com/">Mercurial: The Definitive Guide</a></li>
+</ul></li>
+</ul></li>
 <li><a href="http://rake.rubyforge.org/">Rake</a>
 <ul>
 <li>A tool for writing dependency based tasks, in Ruby</li>
 <li>Tutorials
 <ul>
 <li><a href="http://martinfowler.com/articles/rake.html">Using the Rake Build Language</a></li>
+<li><a href="http://www.stuartellis.eu/articles/rake/">Using Rake to Automate Tasks</a></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -75,8 +72,8 @@ code.sourceCode span.er { color: red; font-weight: bold; }
 <ul>
 <li><a href="http://daringfireball.net/projects/markdown/">Markdown</a>
 <ul>
-<li>minimalist markup language</li>
-<li>Multiple implementations, for example <a href="http://fletcherpenney.net/multimarkdown/">MultiMarkdown</a></li>
+<li>minimal markup language, widely implemented</li>
+<li>One example: <a href="http://fletcherpenney.net/multimarkdown/">MultiMarkdown</a></li>
 </ul></li>
 <li><a href="http://johnmacfarlane.net/pandoc/">Pandoc</a>
 <ul>
@@ -89,8 +86,26 @@ code.sourceCode span.er { color: red; font-weight: bold; }
 <li><a href="http://ledger-cli.org/">Ledger</a>
 <ul>
 <li>Ledger is a CLI accounting tool</li>
-<li>Use the 3.x beta branch off of github, which is being actively developed</li>
+<li>Multiple implementations
+<ul>
+<li>the original C++ version, given above</li>
+<li><a href="http://furius.ca/beancount/">Beancount</a> in python</li>
+<li><a href="http://hledger.org/">hledger</a> in haskell</li>
+</ul></li>
+<li>The 3.x beta branch off of github is preferred over the older 2.6.x version in MacPorts</li>
 </ul></li>
 </ul>
+<h2 id="scripts">Scripts</h2>
+<p>Note that these are pulled straight from my code, and won’t work without fairly serious modifications - they often will need other utilities installed. Use this as a starting point</p>
+<h3 id="scriptsdocgen"><code>scripts/docgen</code></h3>
+<p>This is the documentation generation script that I use to convert markdown files into different formats - for example, turning this README into a nicely formatted PDF and HTML docs that are also in the repo.</p>
+<p>It’s dependent on pandoc, imagemagick, pdfcrush, advpng and a few other XML specific tools like jing.</p>
+<p>See the <code>test</code> subfolder for examples - all the files inside were created from <code>testfile.mkd</code></p>
+<h3 id="scriptsmailsend.scpt"><code>scripts/mailsend.scpt</code></h3>
+<p>A very simple Applescript that will send an email with specified subject/sender/attachments. I run this with a bash script that calls rake. The code as written below needs help to be functional in your environment.</p>
+<p><em>bash script:</em></p>
+<pre class="sourceCode"><code class="sourceCode bash"><span class="co">#!/usr/bin/env rake</span><br /><span class="ot">RAKECMD=</span><span class="st">&quot;rake -f ~/tools/worklog.rake&quot;</span><br /><span class="ot">${RAKECMD}</span> <span class="st">&quot;</span><span class="ot">${1}</span><span class="st">&quot;</span> <span class="ot">target=</span><span class="st">&quot;</span><span class="ot">${2}</span><span class="st">&quot;</span></code></pre>
+<p><em>rakefile - at ~/tools/worklog.rake in my environment</em></p>
+<pre class="sourceCode"><code class="sourceCode ruby"><br /><span class="co"># paths</span><br />tool_path = <span class="st">&quot;~/tools&quot;</span><br /><br /><span class="co"># binaries</span><br /><span class="dt">$osascript_bin</span> = <span class="st">&quot;/usr/bin/osascript&quot;</span><br /><br /><span class="co"># scripts</span><br /><span class="dt">$mailsend_scpt</span> = tool_path + <span class="st">&quot;/worklog/mailsend.scpt&quot;</span><br /><br /><span class="co"># set the target variable if it's a valid file</span><br /><span class="dt">$target</span> = <span class="dv">nil</span><br /><span class="kw">if</span> !<span class="dt">ENV</span>[<span class="st">&quot;target&quot;</span>].nil? &amp;&amp; <span class="dt">File</span>.file?(<span class="dt">ENV</span>[<span class="st">&quot;target&quot;</span>])<br />    <span class="dt">$target</span> = <span class="dt">ENV</span>[<span class="st">&quot;target&quot;</span>];<br /><span class="kw">end</span><br /><br /><span class="co"># mailinvoice</span><br />desc <span class="st">&quot;Create an email message with attachment in Mail.app&quot;</span> <br />task <span class="st">:mailinvoice</span> =&gt; [ <span class="st">:worklogs</span>, <span class="st">:ledgers</span> ] <span class="kw">do</span><br />    <span class="kw">if</span> <span class="dt">$target</span><br />        note_date = <span class="st">`date +&quot;%Y-%m-%d&quot;`</span><br />        filepath = <span class="dt">File</span>.expand_path(<span class="dt">$target</span>)<br />        name = customer_name()<br />        email = customer_email()<br />        sh <span class="st">&quot;</span><span class="ot">#{</span><span class="dt">$osascript_bin</span><span class="ot">}</span><span class="st"> </span><span class="ot">#{</span><span class="dt">$mailsend_scpt</span><span class="ot">}</span><span class="st"> 'Invoice for </span><span class="ot">#{</span>note_date<span class="ot">}</span><span class="st">' 'Please see the enclosed invoice\n\n' </span><span class="ot">#{</span>name<span class="ot">}</span><span class="st"> </span><span class="ot">#{</span>email<span class="ot">}</span><span class="st"> </span><span class="ot">#{</span>filepath<span class="ot">}</span><span class="st">&quot;</span><br />    <span class="kw">end</span><br /><span class="kw">end</span><br /><br /><span class="kw">def</span> customer_name()<br />    <span class="kw">return</span> <span class="st">&quot;customer&quot;</span><br /><span class="kw">end</span><br /><br /><span class="kw">def</span> customer_email()<br />    <span class="kw">return</span> <span class="st">&quot;user@host.net&quot;</span><br /><span class="kw">end</span></code></pre>
 </body>
 </html>
